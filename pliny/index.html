@@ -248,10 +248,218 @@
       opacity: 0.9;
     }
 
+    /* ─ Module preview (phone mockup) ─────────────────────────────── */
+    .preview-section { padding: 80px 24px; background: var(--surface); }
+    .preview-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .preview-copy .eyebrow {
+      display: inline-block;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .preview-copy h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      color: var(--navy);
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+    .preview-copy h3.module-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.1rem;
+      color: var(--navy-mid);
+      margin: 24px 0 6px;
+      font-style: italic;
+      font-weight: 400;
+    }
+    .preview-copy p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+    .preview-copy .topic-tag {
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Phone frame */
+    .phone-frame {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      background: #0a0a0a;
+      border-radius: 44px;
+      padding: 10px;
+      box-shadow:
+        0 30px 60px rgba(13,71,161,0.25),
+        0 0 0 2px rgba(255,255,255,0.05) inset,
+        0 0 0 1px rgba(0,0,0,0.4);
+      position: relative;
+    }
+    .phone-frame::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 86px;
+      height: 22px;
+      background: #000;
+      border-radius: 0 0 14px 14px;
+      z-index: 3;
+    }
+    .phone-screen {
+      background: #0F1428;
+      border-radius: 36px;
+      overflow: hidden;
+      aspect-ratio: 9 / 19.5;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    /* Slide ticker */
+    .slide-stack {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: #000;
+      flex-shrink: 0;
+      margin-top: 32px; /* room for notch */
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .slide.active { opacity: 1; }
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* Caption area */
+    .phone-caption {
+      flex: 1;
+      padding: 18px 18px 8px;
+      color: #EDF0FF;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .phone-caption .level {
+      font-size: 0.7rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .phone-caption .title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: #FFFFFF;
+    }
+    .phone-caption .subtitle {
+      font-size: 0.78rem;
+      color: rgba(237,240,255,0.7);
+      line-height: 1.4;
+      margin-top: 2px;
+    }
+    /* Audio panel — mirrors app audio panel: play/pause + scrub + times */
+    .audio-panel {
+      padding: 12px 18px 22px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .audio-panel .play-pause {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.12s ease;
+    }
+    .audio-panel .play-pause:hover { transform: scale(1.06); }
+    .audio-panel .play-pause svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--navy);
+    }
+    .audio-panel .play-pause.is-playing .icon-play { display: none; }
+    .audio-panel .play-pause:not(.is-playing) .icon-pause { display: none; }
+    .audio-panel .scrub-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .audio-panel .scrub {
+      width: 100%;
+      height: 4px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+    }
+    .audio-panel .scrub-fill {
+      height: 100%;
+      width: 0;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: width 0.15s linear;
+    }
+    .audio-panel .time-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.68rem;
+      color: rgba(237,240,255,0.6);
+      font-variant-numeric: tabular-nums;
+    }
+    .preview-fineprint {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    @media (max-width: 800px) {
+      .preview-inner {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .preview-copy { text-align: center; }
+      .preview-copy .eyebrow,
+      .preview-copy .topic-tag { display: inline-block; }
+    }
     @media (max-width: 600px) {
       .pliny-hero { padding: 64px 20px 56px; }
       .pliny-hero img.logo { width: 88px; height: 88px; }
       .section { padding: 56px 20px; }
+      .preview-section { padding: 56px 20px; }
     }
   </style>
 </head>
@@ -322,6 +530,59 @@
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- Module preview — interactive demo of one real Pliny lesson -->
+  <section class="preview-section">
+    <div class="preview-inner">
+      <div class="preview-copy">
+        <span class="eyebrow">Try a module</span>
+        <h2>This is what a Pliny lesson feels like.</h2>
+        <p>
+          Tap play to listen to a real module from the Civil Rights
+          Movement topic. The images on screen change in time with the
+          narration — exactly how every lesson plays inside the app.
+        </p>
+        <h3 class="module-title">The Double Victory Campaign</h3>
+        <div class="topic-tag">Module 1 · Civil Rights Movement</div>
+      </div>
+
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="slide-stack" id="slide-stack">
+            <div class="slide active"><img src="/assets/preview/civil-rights/slide-1.webp" alt="" loading="lazy" /></div>
+            <div class="slide"><img src="/assets/preview/civil-rights/slide-2.webp" alt="" loading="lazy" /></div>
+            <div class="slide"><img src="/assets/preview/civil-rights/slide-3.webp" alt="" loading="lazy" /></div>
+            <div class="slide"><img src="/assets/preview/civil-rights/slide-4.webp" alt="" loading="lazy" /></div>
+            <div class="slide"><img src="/assets/preview/civil-rights/slide-5.webp" alt="" loading="lazy" /></div>
+            <div class="slide"><img src="/assets/preview/civil-rights/slide-6.webp" alt="" loading="lazy" /></div>
+            <div class="slide"><img src="/assets/preview/civil-rights/slide-7.webp" alt="" loading="lazy" /></div>
+          </div>
+          <div class="phone-caption">
+            <div class="level">Level 1 · Module 1</div>
+            <div class="title">The Double Victory Campaign</div>
+            <div class="subtitle">World War II and racial awakening</div>
+          </div>
+          <div class="audio-panel">
+            <button class="play-pause" id="play-pause" aria-label="Play">
+              <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </button>
+            <div class="scrub-wrap">
+              <div class="scrub" id="scrub" role="slider" aria-label="Audio position" tabindex="0">
+                <div class="scrub-fill" id="scrub-fill"></div>
+              </div>
+              <div class="time-row">
+                <span id="current-time">0:00</span>
+                <span id="total-time">1:14</span>
+              </div>
+            </div>
+          </div>
+          <audio id="preview-audio" preload="metadata" src="/assets/preview/civil-rights/narration.mp3"></audio>
+        </div>
+      </div>
+    </div>
+    <p class="preview-fineprint">Excerpt from a Pliny lesson — narration generated with ElevenLabs.</p>
   </section>
 
   <!-- Topics -->
@@ -446,5 +707,104 @@
       </div>
     </div>
   </footer>
+  <script>
+    // ─ Module-preview player: audio + timestamp-synced slide ticker ─────
+    (function () {
+      const audio = document.getElementById('preview-audio');
+      const playPause = document.getElementById('play-pause');
+      const scrub = document.getElementById('scrub');
+      const scrubFill = document.getElementById('scrub-fill');
+      const currentTimeEl = document.getElementById('current-time');
+      const totalTimeEl = document.getElementById('total-time');
+      const slides = document.querySelectorAll('#slide-stack .slide');
+
+      // Slide start times in seconds (user-supplied beats from the audio).
+      // Slide i becomes active when audio.currentTime >= slideStarts[i].
+      const slideStarts = [0, 8, 19, 28, 37, 45, 56];
+
+      let currentSlide = 0;
+
+      function formatTime(s) {
+        if (!isFinite(s)) return '0:00';
+        const m = Math.floor(s / 60);
+        const r = Math.floor(s % 60);
+        return m + ':' + (r < 10 ? '0' : '') + r;
+      }
+
+      function setActiveSlide(idx) {
+        if (idx === currentSlide) return;
+        slides[currentSlide].classList.remove('active');
+        slides[idx].classList.add('active');
+        currentSlide = idx;
+      }
+
+      function syncSlide() {
+        const t = audio.currentTime;
+        let idx = 0;
+        for (let i = 0; i < slideStarts.length; i++) {
+          if (t >= slideStarts[i]) idx = i;
+        }
+        setActiveSlide(idx);
+      }
+
+      playPause.addEventListener('click', function () {
+        if (audio.paused) {
+          audio.play();
+        } else {
+          audio.pause();
+        }
+      });
+      audio.addEventListener('play', function () {
+        playPause.classList.add('is-playing');
+        playPause.setAttribute('aria-label', 'Pause');
+      });
+      audio.addEventListener('pause', function () {
+        playPause.classList.remove('is-playing');
+        playPause.setAttribute('aria-label', 'Play');
+      });
+
+      audio.addEventListener('timeupdate', function () {
+        const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+        scrubFill.style.width = pct + '%';
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+        syncSlide();
+      });
+
+      audio.addEventListener('loadedmetadata', function () {
+        totalTimeEl.textContent = formatTime(audio.duration);
+      });
+
+      audio.addEventListener('ended', function () {
+        // Reset to first slide and update controls
+        playPause.classList.remove('is-playing');
+        playPause.setAttribute('aria-label', 'Play');
+        setActiveSlide(0);
+        scrubFill.style.width = '0%';
+        currentTimeEl.textContent = '0:00';
+      });
+
+      scrub.addEventListener('click', function (e) {
+        if (!audio.duration) return;
+        const rect = scrub.getBoundingClientRect();
+        const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        audio.currentTime = pct * audio.duration;
+      });
+
+      // Keyboard a11y on the scrub bar (left/right arrows, space to play/pause)
+      scrub.addEventListener('keydown', function (e) {
+        if (!audio.duration) return;
+        if (e.key === 'ArrowRight') {
+          audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
+          e.preventDefault();
+        } else if (e.key === 'ArrowLeft') {
+          audio.currentTime = Math.max(0, audio.currentTime - 5);
+          e.preventDefault();
+        } else if (e.key === ' ') {
+          if (audio.paused) audio.play(); else audio.pause();
+          e.preventDefault();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
