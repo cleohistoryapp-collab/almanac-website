@@ -48,7 +48,7 @@ final:
 | Where | Placeholder | Replace with |
 |---|---|---|
 | `privacy/`, `terms/`, `index.html` | `[Registered office address — to be confirmed]` | Almanac Studios Limited's registered office, per Companies House |
-| `pliny/` hero + final-CTA | App Store button is `disabled` with placeholder text "Coming to the App Store" | Once Pliny is approved, swap `href="#"` to `https://apps.apple.com/app/<id>` and remove the `disabled` class + `coming-soon-note` |
+| `pliny/` hero + final-CTA | ~~App Store button is `disabled` with placeholder text~~ | Activated 2026-05 — points at `https://apps.apple.com/app/id6770077802`. |
 
 ## Email
 
