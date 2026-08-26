@@ -1,2 +1,8 @@
 .claude/
 .DS_Store
+
+# iCloud/Finder conflict copies ("index 2.html", "robots 2.txt", ".gitignore 2").
+# This repo lives under ~/Documents, which iCloud syncs — without this they get
+# committed and ship as duplicate pages and orphan assets.
+* [0-9].*
+* [0-9]
