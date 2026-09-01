@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Pliny</title>
+<style>
+  :root{--navy:#1565C0;--gold:#D4AF37;--cream:#F5EFDD;--ink:#101820}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100dvh;display:flex;align-items:center;justify-content:center;
+       background:var(--navy);color:var(--cream);
+       font-family:Manrope,system-ui,-apple-system,"Segoe UI",sans-serif;padding:24px}
+  .card{text-align:center;max-width:420px;width:100%}
+  h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:56px;margin:0 0 6px;letter-spacing:-.03em}
+  .rule{width:120px;height:3px;background:var(--gold);border-radius:2px;margin:14px auto 18px}
+  p{margin:0 0 28px;opacity:.9;font-size:17px;line-height:1.5}
+  a.btn{display:block;padding:16px 20px;margin:10px 0;border-radius:12px;text-decoration:none;
+        font-weight:700;font-size:17px;background:var(--cream);color:var(--ink)}
+  a.btn.alt{background:transparent;color:var(--cream);border:1.5px solid rgba(245,239,221,.45)}
+  .note{margin-top:22px;font-size:13px;opacity:.55}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Pliny</h1>
+  <div class="rule"></div>
+  <p id="msg">Opening the App Store…</p>
+  <div id="links" hidden>
+    <a class="btn" id="ios">Download for iPhone</a>
+    <a class="btn alt" id="android">Download for Android</a>
+  </div>
+  <div class="note">History, every day. — Almanac Studios</div>
+</div>
+<script>
+// Bio-link router. TikTok and Instagram allow one link and no per-post links,
+// so the campaign is carried here and handed to each store in the format that
+// store actually reads. The two stores differ in an important way:
+//
+//   Google Play accepts any campaign string, in one url-encoded `referrer`
+//   parameter (not bare utm_* on the URL). So Android gets per-video data.
+//
+//   Apple ignores utm_* entirely, needs pt + ct, and only reports campaigns
+//   that were explicitly created in App Store Connect - arbitrary ct values are
+//   discarded. A campaign also stays hidden until it has first-time downloads
+//   from at least five separate users. Fifty-nine per-video campaigns would
+//   therefore report almost nothing, so iOS is attributed per platform instead:
+//   three registered campaigns that actually accumulate enough installs to show.
+//
+// Per-video signal on iOS comes indirectly - YouTube per-video views and the
+// click-through here tell you which videos send traffic; ct tells you which
+// platform converts.
+
+// Generate once in App Store Connect (Analytics > Acquisition > Campaigns, the
+// + button). The token is issued with your first campaign link and never
+// changes. Until it is set, iOS links still work - they are just unattributed.
+var APPLE_PROVIDER_TOKEN = '128580375';
+
+// Must match campaigns actually created in App Store Connect, name for name.
+// Capitalisation must match App Store Connect exactly - ct is case-sensitive.
+var APPLE_CAMPAIGNS = {tiktok:'Tiktok', youtube:'Youtube', instagram:'Instagram'};
+
+var APP_STORE_ID = '6770077802';
+var PLAY_ID = 'com.almanacstudios.pliny';
+
+var q = new URLSearchParams(location.search);
+var campaign = (q.get('c') || '').slice(0, 40);
+var source = (q.get('s') || 'bio').slice(0, 40);
+
+function iosUrl() {
+  var u = 'https://apps.apple.com/app/apple-store/id' + APP_STORE_ID;
+  var ct = APPLE_CAMPAIGNS[source];
+  if (ct && APPLE_PROVIDER_TOKEN) {
+    u += '?pt=' + encodeURIComponent(APPLE_PROVIDER_TOKEN) +
+         '&ct=' + encodeURIComponent(ct) + '&mt=8';
+  }
+  return u;
+}
+function androidUrl() {
+  var u = 'https://play.google.com/store/apps/details?id=' + PLAY_ID;
+  if (campaign) {
+    var ref = 'utm_source=' + source + '&utm_medium=organic&utm_campaign=' + campaign;
+    u += '&referrer=' + encodeURIComponent(ref);
+  }
+  return u;
+}
+
+var ua = navigator.userAgent || '';
+var isIOS = /iPad|iPhone|iPod/.test(ua) ||
+            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+var isAndroid = /Android/.test(ua);
+
+document.getElementById('ios').href = iosUrl();
+document.getElementById('android').href = androidUrl();
+
+if (isIOS) {
+  location.replace(iosUrl());
+} else if (isAndroid) {
+  document.getElementById('msg').textContent = 'Opening Google Play…';
+  location.replace(androidUrl());
+} else {
+  // Desktop, or a device we cannot place - let the visitor choose.
+  document.getElementById('msg').textContent = 'Get Pliny — museum-sourced history, every day.';
+  document.getElementById('links').hidden = false;
+}
+</script>
+</body>
+</html>
