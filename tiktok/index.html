@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Pliny Uploader — authorisation</title>
+<style>
+  :root{--navy:#1565C0;--gold:#D4AF37;--cream:#F5EFDD;--ink:#101820}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100dvh;display:flex;align-items:center;justify-content:center;
+       background:var(--navy);color:var(--cream);
+       font-family:Manrope,system-ui,-apple-system,"Segoe UI",sans-serif;padding:24px}
+  .card{max-width:560px;width:100%;text-align:center}
+  h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:40px;margin:0 0 6px;letter-spacing:-.02em}
+  .rule{width:120px;height:3px;background:var(--gold);border-radius:2px;margin:14px auto 18px}
+  p{margin:0 0 20px;opacity:.9;font-size:17px;line-height:1.5}
+  code{display:block;background:rgba(0,0,0,.28);border:1px solid rgba(245,239,221,.25);
+       border-radius:10px;padding:16px;font-family:"IBM Plex Mono",ui-monospace,monospace;
+       font-size:15px;word-break:break-all;margin-bottom:16px}
+  button{background:var(--cream);color:var(--ink);border:0;border-radius:10px;padding:14px 22px;
+         font-weight:700;font-size:16px;cursor:pointer}
+  .note{opacity:.6;font-size:13px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Pliny Uploader</h1>
+  <div class="rule"></div>
+  <p id="msg">Checking the response from TikTok…</p>
+  <code id="code" hidden></code>
+  <button id="copy" hidden>Copy code</button>
+  <div class="note">This page only displays the one-time code. Nothing is stored here.</div>
+</div>
+<script>
+// TikTok will not redirect to localhost, so authorisation lands here and the
+// code is handed back by eye. The code is single-use and expires in minutes.
+var q = new URLSearchParams(location.search);
+var code = q.get('code');
+var err = q.get('error');
+var msg = document.getElementById('msg');
+var box = document.getElementById('code');
+var copy = document.getElementById('copy');
+
+if (code) {
+  msg.textContent = 'Paste this code back into the terminal:';
+  box.textContent = code;
+  box.hidden = false;
+  copy.hidden = false;
+  copy.onclick = function () {
+    navigator.clipboard.writeText(code).then(function () {
+      copy.textContent = 'Copied';
+    });
+  };
+} else if (err) {
+  msg.textContent = 'TikTok refused the request: ' + err +
+                    (q.get('error_description') ? ' — ' + q.get('error_description') : '');
+} else {
+  msg.textContent = 'Nothing to show. Start the authorisation from the uploader.';
+}
+</script>
+</body>
+</html>
